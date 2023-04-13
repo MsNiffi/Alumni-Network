@@ -1,0 +1,27 @@
+version: '1.0'
+services:
+  node:
+    container_name: node
+    build:
+      context: .
+      dockerfile: react/Dockerfile
+    ports:
+      - "5173:5173"
+    command: npm run dev
+  postgres:
+    container_name: postgres
+    image: postgres:latest
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=alumnidb
+    ports:
+      - "5432:5432"
+  java:
+    container_name: alumni-backend
+    build: 
+      context: ./java
+      dockerfile: ./Dockerfile
+    ports:
+      - "8080:8080"
+    command: java -jar -Dserver.port=8080 app.jar
